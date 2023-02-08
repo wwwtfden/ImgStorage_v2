@@ -1,2 +1,3 @@
-# MyImgStorage
-Modified project MyNotes
+# MyNotes
+
+A simple note editor with image view support.
