@@ -5,6 +5,9 @@
 #include <QLayout>
 #include <QLabel>
 
+#include <QCloseEvent>
+#include <QDebug>
+
 namespace Ui {
 class AddOnRes;
 }
@@ -26,6 +29,7 @@ private:
     QPixmap pix;
     QPixmap pixF;
     //   QLayout layout;
+    void closeEvent(QCloseEvent *e);
 };
 
 #endif // ADDONRES_H

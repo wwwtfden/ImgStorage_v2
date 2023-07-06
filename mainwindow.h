@@ -8,6 +8,8 @@
 #include <dbwriter.h>
 #include "addonres.h"
 
+#include <QPointer>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -67,11 +69,15 @@ private:
   //  bool constructorFlag;
 
     DBWriter dbTools;
-    AddOnRes* aResWidget;
+
+    QPointer<AddOnRes> aResWidget;
+   // AddOnRes* aResWidget;
 
     QPixmap tmpImg;
     QPixmap tmpImg2;
 
+    //тут будет название текущего файла
+    QString currentImgName;
 
 };
 #endif // MAINWINDOW_H

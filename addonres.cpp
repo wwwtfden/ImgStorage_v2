@@ -28,10 +28,13 @@ QPixmap AddOnRes::getPix() const
 
 void AddOnRes::setPix(const QPixmap &value)
 {
+    if (this->isVisible()){
+    qDebug() << "settin pix areswidget";
     pix = value;
     pixF = pix.scaled(QSize(ui->label->width(), ui->label->height()), Qt::KeepAspectRatio, Qt::SmoothTransformation);
     ui->label->setPixmap(pixF);
     ui->label->repaint();
+    }
 }
 
 void AddOnRes::resizeEvent(QResizeEvent *event)
@@ -41,4 +44,11 @@ void AddOnRes::resizeEvent(QResizeEvent *event)
     pixF = pix.scaled(QSize(ui->label->width(), ui->label->height()), Qt::KeepAspectRatio, Qt::SmoothTransformation);
    ui->label->setPixmap(pixF);
    ui->label->repaint();
+}
+
+void AddOnRes::closeEvent(QCloseEvent *e)
+{
+    qDebug() << "close event addonres";
+    this->hide();
+    return;
 }

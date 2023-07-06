@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
     createMenuData();
  //   savedFlag = false;
 
+    aResWidget = new AddOnRes();
+
     this->setWindowTitle("Image Viewer");
     activeNoteIndex = 0;
 
@@ -65,6 +67,7 @@ void MainWindow::displayNoteData() //тут обновляем элементы 
     ui->listWidget->setCurrentRow(activeNoteIndex, QItemSelectionModel::ToggleCurrent);
 
     drawImage();
+
     //savedFlag = false;
 }
 
@@ -117,6 +120,9 @@ void MainWindow::drawImage()
     ui->label->setPixmap(tmpImg2);
     ui->label->repaint();
     cleaner();
+
+    // EXPERIMENTAL
+     aResWidget->setPix(noteList.at(activeNoteIndex)->getImg());
 }
 
 
@@ -138,6 +144,8 @@ void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item)//при наж
  //   ui->plainTextEdit->setPlainText(noteList.at(activeNoteIndex)->getText());
     QPixmap pix = dbTools.getPixmapFromFile(noteList.at(activeNoteIndex)->getText());
     noteList.at(activeNoteIndex)->setImg(pix, noteList.at(activeNoteIndex)->getText());
+
+    currentImgName = noteList.at(activeNoteIndex)->getText();
     //test function
     displayNoteData();
    // drawImage();
@@ -218,6 +226,10 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 
                 noteList.at(activeNoteIndex)->setImg(dbTools.getPixmapFromFile(noteList.at(activeNoteIndex)->getText()), noteList.at(activeNoteIndex)->getText());
                 drawImage();
+
+                // EXPERIMENTAL
+               //  aResWidget->setPix(noteList.at(activeNoteIndex)->getImg());
+
            //     qDebug() << "Now current row " << ui->listWidget->currentRow() << " activeNoteIndex" << activeNoteIndex;
   //              ui->plainTextEdit->setPlainText(noteList.at(activeNoteIndex)->getText());
                 return true;
@@ -236,6 +248,12 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
                 activeNoteIndex = ui->listWidget->currentRow();
                 noteList.at(activeNoteIndex)->setImg(dbTools.getPixmapFromFile(noteList.at(activeNoteIndex)->getText()), noteList.at(activeNoteIndex)->getText());
                 drawImage();
+
+
+                // EXPERIMENTAL
+                // aResWidget->setPix(noteList.at(activeNoteIndex)->getImg());
+
+
            //     qDebug() << "Now current row " << ui->listWidget->currentRow() << " activeNoteIndex" << activeNoteIndex;
   //              ui->plainTextEdit->setPlainText(noteList.at(activeNoteIndex)->getText());
                 return true;
@@ -343,9 +361,12 @@ void MainWindow::addResWgtInit()
 //    AddOnRes aResWidget;
  //   aResWidget.setPix(noteList.at(activeNoteIndex)->getImg());
  //   aResWidget.initData();
-    aResWidget = new AddOnRes();
-    aResWidget->setPix(noteList.at(activeNoteIndex)->getImg());
+ //   aResWidget = new AddOnRes();
     aResWidget->show();
+    aResWidget->setPix(noteList.at(activeNoteIndex)->getImg());
+    aResWidget->repaint();
+
+    // добавить флаг что areswidget активен
 }
 
 void MainWindow::saveDbFile()
@@ -377,6 +398,7 @@ void MainWindow::cleaner()
 
 void MainWindow::on_debugButton_clicked()
 {
+    qDebug() << currentImgName;
 //    qDebug() << "Program info";
 //    qDebug() << "NoteList in Widget: length " << noteList.length();
 //    for (int i = 0; i < noteList.length(); i++){
